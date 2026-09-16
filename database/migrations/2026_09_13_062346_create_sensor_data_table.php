@@ -8,15 +8,18 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('sensor_data', function (Blueprint $table) {
-            $table->float('jarak')->nullable()->after('kelembapan');
+        Schema::create('sensor_data', function (Blueprint $table) {
+            $table->id();
+            $table->string('device_id');
+            $table->double('suhu', 8, 2)->nullable();
+            $table->double('kelembapan', 8, 2)->nullable();
+            $table->double('jarak', 8, 2)->nullable();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::table('sensor_data', function (Blueprint $table) {
-            $table->dropColumn('jarak');
-        });
+        Schema::dropIfExists('sensor_data');
     }
 };

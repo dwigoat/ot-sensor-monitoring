@@ -8,15 +8,19 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('sensor_data', function (Blueprint $table) {
-            $table->float('jarak')->nullable()->after('kelembapan');
-        });
+        if (!Schema::hasColumn('sensor_data', 'jarak')) {
+            Schema::table('sensor_data', function (Blueprint $table) {
+                $table->double('jarak', 8, 2)->nullable()->after('kelembapan');
+            });
+        }
     }
 
     public function down()
     {
-        Schema::table('sensor_data', function (Blueprint $table) {
-            $table->dropColumn('jarak');
-        });
+        if (Schema::hasColumn('sensor_data', 'jarak')) {
+            Schema::table('sensor_data', function (Blueprint $table) {
+                $table->dropColumn('jarak');
+            });
+        }
     }
 };
